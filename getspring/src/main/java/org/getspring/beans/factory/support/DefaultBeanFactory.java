@@ -10,7 +10,6 @@ public class DefaultBeanFactory implements BeanFactory {
 	private static final String NAME="name";
 	
 	
-	
 	public DefaultBeanFactory(String configfile) {
 		// TODO Auto-generated constructor stub
 	}
