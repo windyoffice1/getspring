@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean id="petstore"
+		class="org.getspring.service.v1.PetStoreSerivce"></bean>
+</beans>
