@@ -10,6 +10,8 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.getspring.beans.BeanDefinition;
+import org.getspring.beans.factory.BeanCreationException;
+import org.getspring.beans.factory.BeanDefinitionStoreException;
 import org.getspring.beans.factory.BeanFactory;
 import org.getspring.util.ClassUtils;
 
@@ -43,13 +45,14 @@ public class DefaultBeanFactory implements BeanFactory {
 				beanDefinitionMap.put(id, bd);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			throw new BeanDefinitionStoreException("IOException parsing XML"+configfile+"error",e);
 		} finally {
-			try {
-				is.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(is!=null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -62,27 +65,18 @@ public class DefaultBeanFactory implements BeanFactory {
 	@Override
 	public Object getBean(String beanId) {
 		BeanDefinition bd = this.getBeanDefinition(beanId);
-		if (bd == null) {
-			return null;
+		if(bd==null) {
+			throw new BeanCreationException("Bean Definition does not exits");
 		}
 		String beanClassName = bd.getBeanClassName();
 		ClassLoader cl = ClassUtils.getDefaultClassLoader();
 		try {
 			Class<?> clazz = cl.loadClass(beanClassName);
-			try {
-				return clazz.newInstance();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return clazz.newInstance();
+		
+		} catch (Exception e) {
+			throw new BeanCreationException("create bean for"+beanClassName+"error");
 		}
-		return null;
 	}
 
 }
