@@ -5,12 +5,14 @@ import java.util.Map;
 
 import org.getspring.beans.BeanDefinition;
 import org.getspring.beans.factory.BeanCreationException;
-import org.getspring.beans.factory.BeanFactory;
+import org.getspring.beans.factory.config.ConfigurableBeanFactory;
 import org.getspring.util.ClassUtils;
 
-public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
+public class DefaultBeanFactory implements ConfigurableBeanFactory, BeanDefinitionRegistry {
 
 	private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<String, BeanDefinition>();
+	
+	private ClassLoader classLoader;
 
 	@Override
 	public Object getBean(String beanId) {
@@ -19,7 +21,7 @@ public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
 			throw new BeanCreationException("Bean Definition does not exits");
 		}
 		String beanClassName = bd.getBeanClassName();
-		ClassLoader cl = ClassUtils.getDefaultClassLoader();
+		ClassLoader cl =this.getBeanClassLoader();
 		try {
 			Class<?> clazz = cl.loadClass(beanClassName);
 			return clazz.newInstance();
@@ -37,6 +39,18 @@ public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
 	@Override
 	public BeanDefinition getBeanDefinition(String beanId) {
 		return beanDefinitionMap.get(beanId);
+	}
+
+	@Override
+	public void setBeanClassLoader(ClassLoader classLoader) {
+		// TODO Auto-generated method stub
+		this.classLoader=classLoader;
+	}
+
+	@Override
+	public ClassLoader getBeanClassLoader() {
+		// TODO Auto-generated method stub
+		return this.classLoader!=null?this.classLoader:ClassUtils.getDefaultClassLoader();
 	}
 
 }

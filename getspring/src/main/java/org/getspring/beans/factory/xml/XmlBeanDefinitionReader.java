@@ -11,6 +11,7 @@ import org.getspring.beans.BeanDefinition;
 import org.getspring.beans.factory.BeanDefinitionStoreException;
 import org.getspring.beans.factory.support.BeanDefinitionRegistry;
 import org.getspring.beans.factory.support.GenericBeanDefinition;
+import org.getspring.core.io.Resource;
 import org.getspring.util.ClassUtils;
 
 public class XmlBeanDefinitionReader {
@@ -24,11 +25,10 @@ public class XmlBeanDefinitionReader {
 		this.beanDefinitionRegistry = beanDefinitionRegistry;
 	}
 
-	public void loadBeanDefinition(String configfile) {
+	public void loadBeanDefinition(Resource resource) {
 		InputStream is = null;
 		try {
-			ClassLoader cl = ClassUtils.getDefaultClassLoader();
-			is = cl.getResourceAsStream(configfile);
+			is=resource.getInputStream();
 			SAXReader read = new SAXReader();
 			Document document = read.read(is);
 			Element root = document.getRootElement();
@@ -42,7 +42,7 @@ public class XmlBeanDefinitionReader {
 				beanDefinitionRegistry.registerBeanDefinition(id, bd);
 			}
 		} catch (Exception e) {
-			throw new BeanDefinitionStoreException("IOException parsing XML" + configfile + "error", e);
+			throw new BeanDefinitionStoreException("IOException parsing XML" + resource.getDescription() + "error", e);
 		} finally {
 			if (is != null) {
 				try {

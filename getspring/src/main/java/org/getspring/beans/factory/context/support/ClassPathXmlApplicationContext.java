@@ -1,22 +1,20 @@
 package org.getspring.beans.factory.context.support;
 
-import org.getspring.beans.factory.context.ApplicationContext;
-import org.getspring.beans.factory.support.DefaultBeanFactory;
-import org.getspring.beans.factory.xml.XmlBeanDefinitionReader;
+import org.getspring.core.io.ClassPathResource;
+import org.getspring.core.io.Resource;
 
-public class ClassPathXmlApplicationContext implements ApplicationContext {
+public class ClassPathXmlApplicationContext extends AbstractApplicationContext {
 
-	private DefaultBeanFactory beanFactory=null;
-	
-	public ClassPathXmlApplicationContext(String configfile) {
-		beanFactory=new DefaultBeanFactory();
-		XmlBeanDefinitionReader read=new XmlBeanDefinitionReader(beanFactory);
-		read.loadBeanDefinition(configfile);
+	public ClassPathXmlApplicationContext(String configFile) {
+		super(configFile);
 	}
+
 	@Override
-	public Object getBean(String beanId) {
+	protected Resource getResourceByPath(String path) {
 		
-		return beanFactory.getBean(beanId);
+		return new ClassPathResource(path,this.getBeanClassLoader());
 	}
+
+	
 
 }
