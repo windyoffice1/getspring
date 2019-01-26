@@ -8,4 +8,5 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ ApplicationContextTest.class, BeanFactoryTest.class, ResourceTest.class })
 public class V1AllTests {
 
+	//2
 }
