@@ -53,7 +53,7 @@ public class BeanFactoryTest {
 		} catch (BeanDefinitionStoreException e) {
 			return ;
 		}
-		//修改了一个功能
+		
 		Assert.fail("expect BeanDefinitionStoreException");
 	}
 }
