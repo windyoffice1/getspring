@@ -5,16 +5,13 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ ApplicationContextTest.class, 
-	BeanFactoryTest.class,ResourceTest.class })
+@SuiteClasses({ ApplicationContextTest.class, BeanFactoryTest.class, ResourceTest.class })
 public class V1AllTests {
 
-	
-	
-	////新功能开发完成	
-	//这是客户端改造
-	///网页开发功能1
-	
-	//这是功能开发2
+	//// 新功能开发完成
+	// 这是客户端改造
+	// 网页开发功能2
+	/// 网页开发功能1
+	// 这是功能开发2
 
 }
