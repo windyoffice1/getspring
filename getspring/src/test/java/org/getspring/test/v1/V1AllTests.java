@@ -9,4 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	BeanFactoryTest.class,ResourceTest.class })
 public class V1AllTests {
 
+	
+	
+	////新功能开发完成
 }
