@@ -8,7 +8,7 @@ import org.getspring.beans.factory.BeanCreationException;
 import org.getspring.beans.factory.config.ConfigurableBeanFactory;
 import org.getspring.util.ClassUtils;
 
-public class DefaultBeanFactory implements ConfigurableBeanFactory, BeanDefinitionRegistry {
+public class DefaultBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory, BeanDefinitionRegistry {
 
 	private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<String, BeanDefinition>();
 	
@@ -20,6 +20,19 @@ public class DefaultBeanFactory implements ConfigurableBeanFactory, BeanDefiniti
 		if (bd == null) {
 			throw new BeanCreationException("Bean Definition does not exits");
 		}
+		if(bd.isSingleton()) {
+			Object bean=this.getSingleton(beanId);
+			if(bean==null) {
+				bean=createBean(bd);
+				this.registerSingleton(beanId, bean);
+			}
+			return bean;
+		}
+		return createBean(bd);
+		
+	}
+
+	private Object createBean(BeanDefinition bd) {
 		String beanClassName = bd.getBeanClassName();
 		ClassLoader cl =this.getBeanClassLoader();
 		try {

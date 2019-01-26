@@ -1,7 +1,11 @@
 package org.getspring.test.v1;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import org.getspring.beans.BeanDefinition;
 import org.getspring.beans.factory.BeanCreationException;
 import org.getspring.beans.factory.BeanDefinitionStoreException;
 import org.getspring.beans.factory.support.DefaultBeanFactory;
@@ -29,8 +33,15 @@ public class BeanFactoryTest {
 	@Test
 	public void testGetBean() {
 		reader.loadBeanDefinition(resource);
+		BeanDefinition bd=beanFactory.getBeanDefinition("petstore");
+		assertTrue(bd.isSingleton());
+		assertFalse(bd.isPrototype());
+		assertEquals(BeanDefinition.SCOPE_DEFAULT, bd.getScope());
 		PetStoreService petStore = (PetStoreService) beanFactory.getBean("petstore");
+		PetStoreService petStore1 = (PetStoreService) beanFactory.getBean("petstore");
+
 		assertNotNull(petStore);
+		assertTrue(petStore.equals(petStore1));
 	}
 	
 	@Test
