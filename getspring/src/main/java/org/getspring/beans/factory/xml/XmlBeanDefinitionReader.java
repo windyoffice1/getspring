@@ -12,12 +12,13 @@ import org.getspring.beans.factory.BeanDefinitionStoreException;
 import org.getspring.beans.factory.support.BeanDefinitionRegistry;
 import org.getspring.beans.factory.support.GenericBeanDefinition;
 import org.getspring.core.io.Resource;
-import org.getspring.util.ClassUtils;
 
 public class XmlBeanDefinitionReader {
 	private static final String ID = "id";
 
 	private static final String NAME = "class";
+	
+	private static final String SCOPE="scope";
 
 	BeanDefinitionRegistry beanDefinitionRegistry;
 
@@ -39,6 +40,9 @@ public class XmlBeanDefinitionReader {
 				String id = ele.attributeValue(ID);
 				String beanName = ele.attributeValue(NAME);
 				BeanDefinition bd = new GenericBeanDefinition(id, beanName);
+				if(ele.attributeValue(SCOPE)!=null) {
+					bd.setScope(ele.attributeValue(SCOPE));
+				}
 				beanDefinitionRegistry.registerBeanDefinition(id, bd);
 			}
 		} catch (Exception e) {
