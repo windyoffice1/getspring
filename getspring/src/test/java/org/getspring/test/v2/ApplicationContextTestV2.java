@@ -1,4 +1,4 @@
-package org.getspring.test.v1;
+package org.getspring.test.v2;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -8,20 +8,12 @@ import org.getspring.beans.factory.context.support.FileSystemXmlApplicationConte
 import org.getspring.service.v1.PetStoreService;
 import org.junit.Test;
 
-public class ApplicationContextTest {
+public class ApplicationContextTestV2 {
 
 	@Test
 	public void testGetBean() {
-		ApplicationContext ctx=new ClassPathXmlApplicationContext("petstore-v1.xml");
+		ApplicationContext ctx=new ClassPathXmlApplicationContext("petstore-v2.xml");
 		PetStoreService petStore = (PetStoreService) ctx.getBean("petstore");
 		assertNotNull(petStore);
 	}
-	
-	@Test
-	public void testGetBeanFromFileSystemContext() {
-		ApplicationContext ctx=new FileSystemXmlApplicationContext("C:\\git-workspace\\getspring\\getspring\\getspring\\src\\test\\resources\\petstore-v1.xml");
-		PetStoreService petStore = (PetStoreService) ctx.getBean("petstore");
-		assertNotNull(petStore);
-	}
-
 }
