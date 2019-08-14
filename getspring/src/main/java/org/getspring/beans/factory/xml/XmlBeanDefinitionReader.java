@@ -1,9 +1,5 @@
 package org.getspring.beans.factory.xml;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
-
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -13,12 +9,24 @@ import org.getspring.beans.factory.support.BeanDefinitionRegistry;
 import org.getspring.beans.factory.support.GenericBeanDefinition;
 import org.getspring.core.io.Resource;
 
-public class XmlBeanDefinitionReader {
-	private static final String ID = "id";
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
 
-	private static final String NAME = "class";
+public class XmlBeanDefinitionReader {
+	private static final String ID_ATTRIBUTE = "id";
+
+	private static final String CLASS_ATTRIBUTE = "class";
 	
-	private static final String SCOPE="scope";
+	private static final String SCOPE_ATTRIBUTE="scope";
+
+	private static final String PROPERTY_ELEMENT="property";
+
+	private static final String REF_ATTRIBUTE="ref";
+
+	private static final String NAME_ATTRIBUTE="name";
+
+	private static final String VALUE_ATTRIBUTE="value";
 
 	BeanDefinitionRegistry beanDefinitionRegistry;
 
@@ -37,11 +45,11 @@ public class XmlBeanDefinitionReader {
 			Iterator<Element> iter = root.elementIterator();
 			while (iter.hasNext()) {
 				Element ele = iter.next();
-				String id = ele.attributeValue(ID);
-				String beanName = ele.attributeValue(NAME);
+				String id = ele.attributeValue(ID_ATTRIBUTE);
+				String beanName = ele.attributeValue(CLASS_ATTRIBUTE);
 				BeanDefinition bd = new GenericBeanDefinition(id, beanName);
-				if(ele.attributeValue(SCOPE)!=null) {
-					bd.setScope(ele.attributeValue(SCOPE));
+				if(ele.attributeValue(SCOPE_ATTRIBUTE)!=null) {
+					bd.setScope(ele.attributeValue(SCOPE_ATTRIBUTE));
 				}
 				beanDefinitionRegistry.registerBeanDefinition(id, bd);
 			}
